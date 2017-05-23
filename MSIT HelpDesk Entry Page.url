@@ -1,0 +1,11 @@
+[DEFAULT]
+BASEURL=http://med.uth.tmc.edu/msit/mshelp.htm
+[InternetShortcut]
+URL=https://msitapps.uth.tmc.edu/mshelpdesk/
+Modified=E055F2B7AFD7C8012D
+IconIndex=0
+IconFile=\\uthsch-nas\psy\common\Scripts\Logon\HitachiRasterOpsmonitor.ico
+HotKey=0
+IDList=
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,11
