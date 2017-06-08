@@ -5,7 +5,6 @@
 
 makeCacheMatrix <- function(x = matrix()) { ## define the arguments of the function and call it "makeCacheMatrix"
   inv <- NULL  #introduce the "inv" variable and sets it as NULL; this variable will include values of matrix inverse 
-  set <- function(y)    ## defines "set" as a function to assign new values to the matrix itself (not inverse)
     x <<- y  ## assign a value to the matrix itself in a parent an environment (different from the current environment)
   inv <<- NULL  ## set values of inv (matrix inverse) in the parent environment to NULL
                                           }
@@ -13,7 +12,6 @@ get <- function() x    ## define the "get" function - returns value of the matri
 {
   setinverse <- function(inverse) inv <<- inverse  ## defines the arguments of setinverse; this function will assign value of inv in parent environment
   getinverse <- function() inv                     ## gets the value of inv (in other words, it gets the matrix inverse)
-  list(set = set, get = get, setinverse = setinverse, getinverse = getinverse)  #represents this as a list
 }
 
 ## This function computes the inverse of the special "matrix" returned by makeCacheMatrix above.
