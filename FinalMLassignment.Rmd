@@ -1,23 +1,25 @@
-I installed  required libraries
+---
+title: "Coursera project"
+autho: Isabelle Bauer
+date: 08/09/2017
+output: html_document
+---
 
-```{r}
-install.packages("caret")
-install.packages("rpart")
-install.packages("RColorBrewer")
-install.packages("RGtk2")
-install.packages("randomForest")
- install.packages("rmarkdown")
-install.packages("knitr")
-library(caret)
- library(rpart)
+```{r, include=FALSE}
+ install.packages("caret",repos = "http://cran.us.r-project.org")
+ install.packages("rpart",repos = "http://cran.us.r-project.org")
+ install.packages("RColorBrewer",repos = "http://cran.us.r-project.org")
+ install.packages("randomForest",repos = "http://cran.us.r-project.org")
+ install.packages("rmarkdown",repos = "http://cran.us.r-project.org")
+ install.packages("knitr",repos = "http://cran.us.r-project.org")
+ library(caret)
+library(rpart)
  library(rpart.plot)
  library(RColorBrewer)
  library(randomForest)
- library(RGtk2)
  library(rmarkdown)
  library(knitr)
 set.seed(123456) #set seed for replicability purposes
-
 ```
 
 I downloaded training and testing datasets
@@ -117,8 +119,11 @@ I checked the  new N of observations in training V3
 ```{r}
 dim(mytraining)
 ```
+
+I visualized the data
+
 ```{r}
-plot(mytraining$classe)#visualize the data
+plot(mytraining$classe)
 eval()
 summary(mytraining$classe)#plot data
 

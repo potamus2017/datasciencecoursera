@@ -1,19 +1,21 @@
 #coursera project
-
-# install required libraries
-# install.packages("caret")
-# install.packages("rpart")
-# install.packages("RColorBrewer")
-# install.packages("RGtk2")
-# install.packages("randomForest")
-# install.packages("rmarkdown")
-# library(caret)
+#
+#install required libraries
+#  install.packages("caret")
+#  install.packages("rpart")
+#  install.packages("RColorBrewer")
+#  install.packages("RGtk2")
+#  install.packages("randomForest")
+#  install.packages("rmarkdown")
+#  install.packages("knitr")
+#  library(caret)
 # library(rpart)
-# library(rpart.plot)
-# library(RColorBrewer)
-# library(randomForest)
-# library(RGtk2)
-# library(rmarkdown)
+#  library(rpart.plot)
+#  library(RColorBrewer)
+#  library(randomForest)
+#  library(RGtk2)
+#  library(rmarkdown)
+#  library(knitr)
 set.seed(123456) #set seed for replicability purposes
 
 #download training and testing datasets
@@ -21,7 +23,7 @@ set.seed(123456) #set seed for replicability purposes
 url_train<-"http://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv"
 url_test<-"http://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv"
 
-#make datasets readable as csv files 
+#make datasets readable as csv files
 training <- read.csv(url(url_train), na.strings=c("NA","#DIV/0!",""))
 testing <- read.csv(url(url_test), na.strings=c("NA","#DIV/0!",""))
 #get rid of NAs
@@ -39,11 +41,11 @@ str(mytraining)
 colnames(mytraining)
 colnames(testing)
 #creates a list of variables with 0 observations or not useful predictors (NZV)
-myDataNZV <- nearZeroVar(mytraining, saveMetrics=TRUE) 
+myDataNZV <- nearZeroVar(mytraining, saveMetrics=TRUE)
 
 
 
-#take the list of variables with NZV and concatenate them as a list for readability purposes 
+#take the list of variables with NZV and concatenate them as a list for readability purposes
 myNZVvars <- names(mytraining) %in% c("new_window", "kurtosis_roll_belt", "kurtosis_picth_belt",
                                       "kurtosis_yaw_belt", "skewness_roll_belt", "skewness_roll_belt.1", "skewness_yaw_belt",
                                       "max_yaw_belt", "min_yaw_belt", "amplitude_yaw_belt", "avg_roll_arm", "stddev_roll_arm",
@@ -76,15 +78,15 @@ trainingV3 <- mytraining #creating another clean data subset (training V3) with 
 for(i in 1:length(mytraining)) { #for every column in the training dataset, if NAs>60%  get rid of it
 if( sum( is.na( mytraining[, i] ) ) /nrow(mytraining) >= .6 ) {
 for(j in 1:length(trainingV3)) {
-if( length( grep(names(mytraining[i]), names(trainingV3)[j]) ) ==1)  { # compare training and training V3 
+if( length( grep(names(mytraining[i]), names(trainingV3)[j]) ) ==1)  { # compare training and training V3
         #and if a column is found to have too many NAs remove it and save it all in training V3
-trainingV3 <- trainingV3[ , -j] 
-}   
-} 
+trainingV3 <- trainingV3[ , -j]
+}
+}
 }
 }
 dim(trainingV3)
-#To check  new N of observations in training V3 
+#To check  new N of observations in training V3
 dim(mytraining)
 plot(mytraining$classe)#visualize the data
 summary(mytraining$classe)#plot data
@@ -95,19 +97,19 @@ rm(trainingV3)
 
 clean1 <- colnames(mytraining)#create a table with the list of variables that are included in the training dataset
 mytesting <- mytesting[clean1]#mytesting has all the variables included in my training
-clean2<-colnames(mytraining[,-58])#make the mytesting and initial 
+clean2<-colnames(mytraining[,-58])#make the mytesting and initial
 #testing dataset compatible with same variables
 testing<-testing[clean2]
 #To check the new N of observations, which should be 57
 dim(mytesting)
 dim(testing)
-#coerce data into the same data type 
+#coerce data into the same data type
 for (i in 1:length(testing) ) {
   for(j in 1:length(mytraining)) {
     if( length( grep(names(mytraining[i]), names(testing)[j]) ) ==1)  {
       class(mytesting[j]) <- class(mytraining[i])
-    }      
-  }      
+    }
+  }
 }
 
 testing<-rbind(mytraining[2, -58], testing)
@@ -121,7 +123,7 @@ metric <-"fitControl"
 
 
 #apply a first ML algorithm for prediction: generalized boosted regression
-#(gbm) 
+#(gbm)
 set.seed(7)
 modFitA1 <- train(classe ~ ., data=mytraining, method="gbm", trControl=fitControl)
 par(mar = rep(2, 4))
@@ -175,6 +177,10 @@ pml_write_files = function(x){
 
 pml_write_files(predictB2)
 
+library(knitr)
+library(markdown)
+knit("FinalMLassignment.Rmd")
 
-rmarkdown::render("FinalMLassignment.R", "pdf_document")
-rmarkdown::render("FinalMLassignment.R")
+
+#transform the .md to HTML format
+markdownToHTML("FinalMLassignment.md", "FinalMLassignment.html",fragment.only = TRUE)
